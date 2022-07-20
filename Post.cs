@@ -12,6 +12,8 @@ public class Post
     private string threadId;
     private DateTime date;
 
+    private Reaction[] reactions;
+
     private Post(JToken token)
     {
         if (token["user"] != null)
@@ -28,12 +30,12 @@ public class Post
         if (token["files"] != null)
         {
             if (sb.Length > 0) sb.AppendLine();
-            sb.Append("<何かのメディア>");
+            sb.Append("<span class=\"info\">&lt;何かのメディア&gt;</span>");
         }
         if (token["attachments"] != null)
         {
             if (sb.Length > 0) sb.AppendLine();
-            sb.Append("<何かのメディア>");
+            sb.Append("<span class=\"info\">&lt;何かのメディア&gt;</span>");
         }
         text = sb.ToString();
 
@@ -47,6 +49,26 @@ public class Post
         }
 
         date = DateTime.UnixEpoch + TimeSpan.FromSeconds(long.Parse(token["ts"].ToString().Split('.')[0])) + TimeSpan.FromHours(9);
+
+        if (token["reactions"] != null)
+        {
+            var list = new List<Reaction>();
+
+            foreach (var reaction in token["reactions"])
+            {
+                var type = reaction["name"].ToString();
+                foreach (var user in reaction["users"])
+                {
+                    list.Add(new Reaction(user.ToString(), type));
+                }
+            }
+
+            reactions = list.ToArray();
+        }
+        else
+        {
+            reactions = Array.Empty<Reaction>();
+        }
     }
 
     private static IEnumerable<Post> GetPostsFromSingleJson(string path)
@@ -72,4 +94,22 @@ public class Post
     public string Text => text;
     public string ThreadId => threadId;
     public DateTime Date => date;
+    public IReadOnlyList<Reaction> Reactions => reactions;
+
+
+
+    public class Reaction
+    {
+        private string userId;
+        private string type;
+
+        internal Reaction(string userId, string type)
+        {
+            this.userId = userId;
+            this.type = type;
+        }
+
+        public string UserId => userId;
+        public string Type => type;
+    }
 }
