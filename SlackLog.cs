@@ -57,6 +57,7 @@ public class SlackLog
         text = reCodeBlock.Replace(text, new MatchEvaluator(CodeBlockMatchAction));
         text = text.Replace("\r\n", "<br>");
         text = text.Replace("\n", "<br>");
+        text = text.Replace(":skin-tone-3:", "");
         //text = text.Replace("<", "&lt;");
         //text = text.Replace(">", "&gt;");
         //text = text.Replace("&", "&amp;");

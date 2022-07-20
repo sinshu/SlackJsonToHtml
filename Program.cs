@@ -5,9 +5,11 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        var log = new SlackLog("users.json", "general");
+        var log = new SlackLog(
+            @"users.json",
+            @"general");
 
-        using (var writer = new StreamWriter("investment.html"))
+        using (var writer = new StreamWriter("general.html"))
         {
             var title = "Slack アーカイブ &#35;" + log.ChannelName + " (2022/07/19)";
 
@@ -17,14 +19,14 @@ public static class Program
             writer.WriteLine("<meta charset=\"UTF-8\">");
             writer.WriteLine("<title>" + title + "</title>");
             writer.WriteLine("<style>");
-            writer.WriteLine("body { background-color: #212121; color: #9E9E9E; }");
-            writer.WriteLine("hr { height: 2px; border: none; background-color: #616161; margin-top: 1em; margin-bottom: 1em; }");
+            writer.WriteLine("body { width: 50em; margin: auto; word-break: break-all; background-color: #212121; color: #E0E0E0; }");
+            writer.WriteLine("hr { height: 2px; border: none; background-color: #757575; margin-top: 1em; margin-bottom: 1em; }");
             writer.WriteLine("dd { margin-bottom: 1em; }");
             writer.WriteLine("a { color: #0288D1; }");
             writer.WriteLine(".username { font-weight: bold; color: #03A9F4; }");
-            writer.WriteLine(".date { color: #616161; }");
-            writer.WriteLine(".reaction { color: #616161; }");
-            writer.WriteLine(".info { color: #616161; }");
+            writer.WriteLine(".date { color: #757575; }");
+            writer.WriteLine(".reaction { color: #757575; }");
+            writer.WriteLine(".info { color: #757575; }");
             writer.WriteLine("</style>");
             writer.WriteLine("</head>");
             writer.WriteLine("<body>");
